@@ -27,15 +27,10 @@ class MoviesController extends Controller
         $genres = collect($genreArray)->mapWithKeys(function ($genre){
            return [$genre['id'] => $genre['name']];
         });
-        dump($nowPlayingMovies);
         return view('index',compact('popularMovies' , 'genres' , 'nowPlayingMovies'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //
@@ -52,15 +47,13 @@ class MoviesController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
-        //
+        $movie = Http::withToken(config('services.tmdb.token'))
+            ->get('https://api.themoviedb.org/3/movie/'.$id. '?append_to_response=credits,videos,images')
+            ->json();
+        return view('show',compact('movie'));
     }
 
     /**
