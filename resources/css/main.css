@@ -4,3 +4,7 @@
 
 @import "tailwindcss/utilities";
 
+
+.spinner{
+    position: absolute;
+}
